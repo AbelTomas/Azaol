@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,30 +27,37 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    private static final String TAG = LoginActivity.class.getSimpleName();
+
     private static final int REQUEST_READ_CONTACTS = 0;
 
     @BindView(R.id.tvEmail)
-    AutoCompleteTextView tvEmail;
+    public AutoCompleteTextView tvEmail;
 
     @BindView(R.id.tvPassword)
-    EditText tvPassword;
+    public EditText tvPassword;
 
-
-
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+    private FirebaseAuth mAuth;
+    private Navigator navigator;
 
     private UserLoginTask mAuthTask = null;
 
@@ -63,26 +71,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        tvPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+        getSupportActionBar().hide();
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        navigator = new Navigator(this);
 
-        mLoginFormView = findViewById(R.id.login_form);
+        mAuth = FirebaseAuth.getInstance();
+
+        mLoginFormView = findViewById(R.id.email_login_form);       //todo change to butterknife injection
         mProgressView = findViewById(R.id.login_progress);
     }
 
@@ -127,7 +122,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-    private void attemptLogin() {
+    @OnClick(R.id.email_sign_in_button)
+    public void attemptLogin() {
         if (mAuthTask != null) {
             return;
         }
@@ -144,22 +140,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            tvPassword.setError(getString(R.string.error_invalid_password));
-            focusView = tvPassword;
-            cancel = true;
-        }
+        //if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        //    tvPassword.setError(getString(R.string.error_invalid_password));
+        //    focusView = tvPassword;
+        //    cancel = true;
+        //}
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            tvEmail.setError(getString(R.string.error_field_required));
-            focusView = tvEmail;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            tvEmail.setError(getString(R.string.error_invalid_email));
-            focusView = tvEmail;
-            cancel = true;
-        }
+        //if (TextUtils.isEmpty(email)) {
+        //    tvEmail.setError(getString(R.string.error_field_required));
+        //    focusView = tvEmail;
+        //    cancel = true;
+        //} else if (!isEmailValid(email)) {
+        //    tvEmail.setError(getString(R.string.error_invalid_email));
+        //    focusView = tvEmail;
+        //    cancel = true;
+        //}
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -285,22 +281,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
+            mAuth.signInWithEmailAndPassword(mEmail, mPassword)
+                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                navigator.goToMenu();
+                                Toast.makeText(LoginActivity.this, "Login Correcto.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(LoginActivity.this, "Login Incorrecto.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
             return true;
         }
 

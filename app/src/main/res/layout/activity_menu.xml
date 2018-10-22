@@ -26,8 +26,12 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center"
-                android:src="@drawable/imagen_menu3" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/imagen_fondo_3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -35,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/menu_text_background"
                 android:padding="5dp"
-                android:text="Listado"
+                android:text="@string/menu_list"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -64,8 +68,12 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center"
-                android:src="@drawable/imagen_menu4" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/imagen_fondo_4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -73,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/menu_text_background"
                 android:padding="5dp"
-                android:text="Ajustes"
+                android:text="@string/menu_settings"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,9 +110,12 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center"
-                android:src="@drawable/imagen_menu1"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/imagen_fondo_1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -112,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/menu_text_background"
                 android:padding="5dp"
-                android:text="Nueva Lectura"
+                android:text="@string/menu_new"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -143,8 +154,12 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center"
-                android:src="@drawable/imagen_menu2" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/imagen_fondo_2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -152,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/menu_text_background"
                 android:padding="5dp"
-                android:text="Mapa"
+                android:text="@string/menu_mapa"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

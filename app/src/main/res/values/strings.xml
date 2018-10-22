@@ -85,4 +85,8 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="menu_new">Nueva Lectura</string>
+    <string name="menu_mapa">Mapa</string>
+    <string name="menu_list">Listado</string>
+    <string name="menu_settings">Ajustes</string>
 </resources>

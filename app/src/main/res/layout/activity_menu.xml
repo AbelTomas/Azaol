@@ -12,8 +12,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:cardElevation="@dimen/card_elevation"
+        android:stateListAnimator="@animator/cardview_press_animation"
         app:cardCornerRadius="@dimen/card_round_corner"
+        app:cardElevation="@dimen/card_elevation"
         app:layout_constraintBottom_toTopOf="@+id/guidelineMarginBottom"
         app:layout_constraintEnd_toStartOf="@+id/guidelineMediumVertical"
         app:layout_constraintStart_toStartOf="@+id/guidelineMarginStart"
@@ -28,10 +29,10 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/imagen_fondo_3"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -54,6 +55,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:stateListAnimator="@animator/cardview_press_animation"
         app:cardCornerRadius="@dimen/card_round_corner"
         app:cardElevation="@dimen/card_elevation"
         app:layout_constraintBottom_toTopOf="@+id/guidelineMarginBottom"
@@ -70,10 +72,10 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/imagen_fondo_4"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -96,8 +98,9 @@
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:cardElevation="@dimen/card_elevation"
+        android:stateListAnimator="@animator/cardview_press_animation"
         app:cardCornerRadius="@dimen/card_round_corner"
+        app:cardElevation="@dimen/card_elevation"
         app:layout_constraintBottom_toTopOf="@+id/guidelineMediumHorizontal"
         app:layout_constraintEnd_toStartOf="@+id/guidelineMediumVertical"
         app:layout_constraintStart_toStartOf="@+id/guidelineMarginStart"
@@ -112,10 +115,10 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/imagen_fondo_1"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -140,8 +143,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:foregroundGravity="center"
-        app:cardElevation="@dimen/card_elevation"
+        android:stateListAnimator="@animator/cardview_press_animation"
         app:cardCornerRadius="@dimen/card_round_corner"
+        app:cardElevation="@dimen/card_elevation"
         app:layout_constraintBottom_toTopOf="@+id/guidelineMediumHorizontal"
         app:layout_constraintEnd_toStartOf="@+id/guidelineMarginEnd"
         app:layout_constraintStart_toStartOf="@+id/guidelineMediumVertical"
@@ -156,10 +160,10 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/imagen_fondo_2"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView2"

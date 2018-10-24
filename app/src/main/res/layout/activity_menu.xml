@@ -41,7 +41,9 @@
                 android:background="@color/menu_text_background"
                 android:padding="5dp"
                 android:text="@string/menu_list"
+                android:textSize="@dimen/menu_text_size"
                 android:textStyle="bold"
+                android:textColor="@color/text_menu_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -84,7 +86,9 @@
                 android:background="@color/menu_text_background"
                 android:padding="5dp"
                 android:text="@string/menu_settings"
+                android:textSize="@dimen/menu_text_size"
                 android:textStyle="bold"
+                android:textColor="@color/text_menu_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -96,13 +100,11 @@
         android:id="@+id/cardView1"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:stateListAnimator="@animator/cardview_press_animation"
         app:cardCornerRadius="@dimen/card_round_corner"
         app:cardElevation="@dimen/card_elevation"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineMediumHorizontal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineMediumVertical"
+        app:layout_constraintBottom_toTopOf="@id/cardView2"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineMarginEnd"
         app:layout_constraintStart_toStartOf="@+id/guidelineMarginStart"
         app:layout_constraintTop_toTopOf="@+id/guidelineMarginTop">
 
@@ -126,8 +128,10 @@
                 android:layout_height="wrap_content"
                 android:background="@color/menu_text_background"
                 android:padding="5dp"
+                android:textSize="@dimen/menu_text_size"
                 android:text="@string/menu_new"
                 android:textStyle="bold"
+                android:textColor="@color/text_menu_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -140,16 +144,15 @@
         android:id="@+id/cardView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
         android:foregroundGravity="center"
+        android:layout_marginTop="16dp"
         android:stateListAnimator="@animator/cardview_press_animation"
         app:cardCornerRadius="@dimen/card_round_corner"
         app:cardElevation="@dimen/card_elevation"
         app:layout_constraintBottom_toTopOf="@+id/guidelineMediumHorizontal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineMarginEnd"
-        app:layout_constraintStart_toStartOf="@+id/guidelineMediumVertical"
-        app:layout_constraintTop_toTopOf="@+id/guidelineMarginTop">
+        app:layout_constraintEnd_toEndOf="@id/guidelineMarginEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineMarginStart"
+        app:layout_constraintTop_toBottomOf="@+id/cardView1">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -171,8 +174,10 @@
                 android:layout_height="wrap_content"
                 android:background="@color/menu_text_background"
                 android:padding="5dp"
+                android:textSize="@dimen/menu_text_size"
                 android:text="@string/menu_mapa"
                 android:textStyle="bold"
+                android:textColor="@color/text_menu_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -222,6 +227,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.6" />
 
 </android.support.constraint.ConstraintLayout>

@@ -9,5 +9,6 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="text_color_primary">#212121</color>
-    <color name="menu_text_background">#a7cfd8dc</color>
+    <color name="text_menu_color">#545454</color>
+    <color name="menu_text_background">#c8cfd8dc</color>
 </resources>

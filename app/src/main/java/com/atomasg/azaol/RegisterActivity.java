@@ -3,6 +3,7 @@ package com.atomasg.azaol;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.lang.UCharacter;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -13,12 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.atomasg.azaol.data.Register;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -66,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isUploaded;
     private File file;
     private FirebaseStorage storage;
+    private DatabaseReference rootRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +81,9 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         storage = FirebaseStorage.getInstance();
+
+        rootRef = FirebaseDatabase.getInstance().getReference();
+
 
     }
 
@@ -105,13 +115,31 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void saveData() {
+    private void clearFormat(){
 
     }
 
-    private boolean checkIsAllData() {
+    private void saveData() {
+        Register obj = new Register();
+        obj.setDate(etRegisterDate.getText().toString());
+        obj.setMeter(etLectura.getText().toString());
+        obj.setStreet(etStreet.getText().toString());
+        obj.setNum(etStreetNum.getText().toString());
+        obj.setOwner(etTitular.getText().toString());
+        obj.setObservations(etObservations.getText().toString());
 
-        return true;
+
+        DatabaseReference ref = rootRef.child("registers").push();
+        ref.setValue(obj);
+    }
+
+    private boolean checkIsAllData() {
+        return !etRegisterDate.getText().toString().isEmpty() &&
+                !etLectura.getText().toString().isEmpty() &&
+                !etStreet.getText().toString().isEmpty() &&
+                !etStreetNum.getText().toString().isEmpty() &&
+                !etTitular.getText().toString().isEmpty() &&
+                !etObservations.getText().toString().isEmpty();
     }
 
     private void uploadImage() {

@@ -12,13 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -29,6 +30,7 @@
 
             <EditText
                 android:id="@+id/etStreet"
+                style="@style/CustomEdittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7" />
@@ -37,6 +39,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -47,6 +50,7 @@
 
             <EditText
                 android:id="@+id/etStreetNum"
+                style="@style/CustomEdittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7" />
@@ -56,6 +60,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -66,6 +71,7 @@
 
             <EditText
                 android:id="@+id/etTitular"
+                style="@style/CustomEdittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
@@ -75,6 +81,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -83,8 +90,9 @@
                 android:layout_weight="3"
                 android:text="Lectura Anterior:" />
 
-            <EditText
-                android:id="@+id/etLecturaAnterior"
+            <TextView
+                android:id="@+id/tvLecturaAnterior"
+                style="@style/CustomEdittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
@@ -94,6 +102,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -104,6 +113,7 @@
 
             <EditText
                 android:id="@+id/etLectura"
+                style="@style/CustomEdittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
@@ -122,7 +132,8 @@
                 android:text="Fecha:" />
 
             <EditText
-                android:id="@+id/NewRegisterDate"
+                android:id="@+id/etRegisterDate"
+                style="@style/CustomEdittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
@@ -143,6 +154,8 @@
                 android:text="Observaciones:" />
 
             <EditText
+                android:id="@+id/etObservations"
+                style="@style/CustomEdittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
@@ -162,14 +175,25 @@
 
     <ImageView
         android:id="@+id/ivRead"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
         android:scaleType="fitCenter"
-        app:layout_constraintTop_toBottomOf="@id/llRegisterForm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/barrier"
-        android:layout_margin="24dp"/>
+        app:layout_constraintEnd_toStartOf="@id/ivWrite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llRegisterForm" />
+
+    <ImageView
+        android:id="@+id/ivWrite"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivRead"
+        app:layout_constraintTop_toBottomOf="@id/llRegisterForm" />
 
 
     <android.support.constraint.Barrier
@@ -177,28 +201,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="floatingActionButtonCamera,pushRegButton" />
+        app:constraint_referenced_ids="btnCamera,btnUpload" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButtonCamera"
+        android:id="@+id/btnCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="24dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_photo_camera" />
+        android:src="@drawable/ic_camera"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/pushRegButton"
+        android:id="@+id/btnUpload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="24dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_checked" />
+        android:src="@drawable/ic_upload"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -28,7 +28,7 @@ public class MenuActivity extends AppCompatActivity {
 
     @OnClick(R.id.cardView2)
     public void onCardView2ClickedAction(){
-        navigator.goToMap();
+        navigator.goToList();
     }
 
     @OnClick(R.id.cardView3)

@@ -40,8 +40,8 @@ public class Navigator {
 
     protected void goToList(){
        // Log.d(TAG,"Going to register list...");
-       // Intent intert = new Intent(activity, RegisterList.class);
-       // activity.startActivity(intert);
+        Intent intent = new Intent(activity, RegisterList.class);
+        activity.startActivity(intent);
 
         Toast.makeText(activity,"Go to List Intent",Toast.LENGTH_SHORT).show();
 

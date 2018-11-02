@@ -14,7 +14,7 @@ class RegisterViewHolder extends RecyclerView.ViewHolder {
 
     public RegisterViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(itemView);
+        ButterKnife.bind(this,itemView);
     }
 
     public void setContador(String contador){

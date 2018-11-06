@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.atomasg.azaol.ui.MapsActivity;
+
 public class Navigator {
 
     private final String TAG = getClass().getSimpleName();
@@ -56,6 +58,8 @@ public class Navigator {
     }
 
     public void goToMap() {
+        Intent intent = new Intent(activity, MapsActivity.class);
+        activity.startActivity(intent);
         Toast.makeText(activity,"Go to Map Intent",Toast.LENGTH_SHORT).show();
     }
 }

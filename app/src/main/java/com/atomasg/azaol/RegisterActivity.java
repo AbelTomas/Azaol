@@ -1,12 +1,13 @@
 package com.atomasg.azaol;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.icu.lang.UCharacter;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -15,14 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atomasg.azaol.data.Register;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -33,7 +31,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.Format;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,9 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.ivRead)
     ImageView ivRead;
 
-    @BindView(R.id.ivWrite)
-    ImageView ivWrite;
-
     @BindView(R.id.etStreet)
     EditText etStreet;
 
@@ -55,9 +49,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     @BindView(R.id.etTitular)
     EditText etTitular;
-
-    @BindView(R.id.tvLecturaAnterior)
-    TextView etLecturaAnterior;
 
     @BindView(R.id.etLectura)
     EditText etLectura;
@@ -91,8 +82,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnCamera)
     public void onCameraClick() {
+        if (file != null) {
+            showCameraConfirmationDialog();
+        } else {
+            startCamera();
+        }
+    }
+
+    private void startCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        showCameraConfirmationDialog();
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_CAPTURE_IMAGE);
         }
@@ -101,31 +99,41 @@ public class RegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnUpload)
     public void onUploadClick() {
-        if (file != null) {
-            uploadImage();
-        }
-        uploadRegister();
-    }
-
-    private void uploadRegister() {
         if (checkIsAllData()) {
-            saveData();
+            if (file != null) {
+                uploadImage();
+            }else{
+                uploadRegister(null);
+            }
+        } else {
+            Toast.makeText(this, "Faltan campos obligatorios", Toast.LENGTH_SHORT).show();
+        }
+        askClearFormat();
+    }
+
+    private void uploadRegister(String uri) {
+        if (checkIsAllData()) {
+            saveData(uri);
+        } else {
+            Toast.makeText(this, "Faltan campos obligatorios", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private void clearFormat() {
+    private void askClearFormat() {
+
 
     }
 
-    private void saveData() {
+    private void saveData(String uri) {
         Register obj = new Register();
         obj.setDate(etRegisterDate.getText().toString());
-        obj.setMeter(etLectura.getText().toString());
+        obj.setValue(etLectura.getText().toString());
         obj.setStreet(etStreet.getText().toString());
         obj.setNum(etStreetNum.getText().toString());
         obj.setOwner(etTitular.getText().toString());
         obj.setObservations(etObservations.getText().toString());
+        obj.setUrl(uri);
 
 
         DatabaseReference ref = rootRef.child("registers").push();
@@ -133,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 System.out.println("Write was successful!");
-                // ...
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -149,8 +157,7 @@ public class RegisterActivity extends AppCompatActivity {
                 !etLectura.getText().toString().isEmpty() &&
                 !etStreet.getText().toString().isEmpty() &&
                 !etStreetNum.getText().toString().isEmpty() &&
-                !etTitular.getText().toString().isEmpty() &&
-                !etObservations.getText().toString().isEmpty();
+                !etTitular.getText().toString().isEmpty();
     }
 
     private void uploadImage() {
@@ -166,31 +173,37 @@ public class RegisterActivity extends AppCompatActivity {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
+
                 Toast.makeText(getApplicationContext(), "Subida fallida", Toast.LENGTH_SHORT).show();
+
+
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                 Toast.makeText(getApplicationContext(), "Subida completada", Toast.LENGTH_SHORT).show();
+
             }
         }).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+
                 if (!task.isSuccessful()) {
                     throw task.getException();
                 }
                 return riversRef.getDownloadUrl();
+
             }
         }).addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
+
                 if (task.isSuccessful()) {
+
                     Uri downloadUri = task.getResult();
                     Toast.makeText(getApplicationContext(), "get Uri Success", Toast.LENGTH_SHORT).show();
-
-                    Glide.with(getApplicationContext())
-                            .load(downloadUri)
-                            .into(ivWrite);
+                    uploadRegister(downloadUri.toString());
 
                 } else {
                     Toast.makeText(getApplicationContext(), "get Uri Fail", Toast.LENGTH_SHORT).show();
@@ -201,8 +214,36 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private void showCameraConfirmationDialog() {
-        //check if get previus imagen
-        //continue
+        AlertDialog dialog = AskOption();
+        dialog.show();
+    }
+
+    private AlertDialog AskOption() {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
+                //set message, title, and icon
+                .setTitle("Camara")
+                .setMessage("¿Quieres cambiar la imagen actual por una nueva?")
+                .setIcon(R.drawable.ic_camera)
+
+                .setPositiveButton("Nueva Foto", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        startCamera();
+                        dialog.dismiss();
+                    }
+
+                })
+
+
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+        return myQuittingDialogBox;
 
     }
 
@@ -241,4 +282,35 @@ public class RegisterActivity extends AppCompatActivity {
             ivRead.setImageBitmap(myBitmap);
         }
     }
+
+
+    private AlertDialog createAdkDialog(String title, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener) {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
+                //set message, title, and icon
+                .setTitle("Camara")
+                .setMessage("¿Quieres cambiar la imagen actual por una nueva?")
+                .setIcon(R.drawable.ic_camera)
+
+                .setPositiveButton("Nueva Foto", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        startCamera();
+                        dialog.dismiss();
+                    }
+
+                })
+
+
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+        return myQuittingDialogBox;
+
+    }
+
 }

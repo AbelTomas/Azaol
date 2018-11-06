@@ -8,8 +8,8 @@ public class Register implements Serializable {
     private String street;
     private String num;
     private String owner;
-    private String meterBefore;
-    private String meter;
+    private String valueBefore;
+    private String value;
     private String date;
     private String observations;
     private String url = "";
@@ -41,20 +41,20 @@ public class Register implements Serializable {
         this.owner = owner;
     }
 
-    public String getMeterBefore() {
-        return meterBefore;
+    public String getValueBefore() {
+        return valueBefore;
     }
 
-    public void setMeterBefore(String meterBefore) {
-        this.meterBefore = meterBefore;
+    public void setValueBefore(String valueBefore) {
+        this.valueBefore = valueBefore;
     }
 
-    public String getMeter() {
-        return meter;
+    public String getValue() {
+        return value;
     }
 
-    public void setMeter(String meter) {
-        this.meter = meter;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getDate() {

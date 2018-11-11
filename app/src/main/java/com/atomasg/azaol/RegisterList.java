@@ -37,8 +37,10 @@ public class RegisterList extends AppCompatActivity {
     private void init() {
         DatabaseReference registerReference = FirebaseDatabase.getInstance().getReference().child("registers");
 
-        adapter = new Adapter(Register.class,R.layout.register_item
-                ,RegisterViewHolder.class,registerReference);
+        adapter = new Adapter(Register.class,
+                R.layout.register_item,
+                RegisterViewHolder.class,
+                registerReference);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);

@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.atomasg.azaol.ui.MapsActivity;
-
 public class Navigator {
 
     private final String TAG = getClass().getSimpleName();
@@ -28,17 +26,6 @@ public class Navigator {
         Intent intert = new Intent(activity, RegisterActivity.class);
         activity.startActivity(intert);
     }
-
-    protected void goToSettings() {
-        Log.d(TAG,"Going to register...");
-        Intent intert = new Intent(activity, SettingsActivity.class);
-        activity.startActivity(intert);
-
-    }
-
-//    protected void goToMap() {
-//
-//    }
 
     protected void goToList(){
        // Log.d(TAG,"Going to register list...");

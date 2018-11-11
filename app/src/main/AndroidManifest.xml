@@ -31,9 +31,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MenuActivity" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".RegisterList" />
         <!--
@@ -49,7 +46,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui.MapsActivity"
+            android:name=".MapsActivity"
             android:label="@string/title_activity_maps">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

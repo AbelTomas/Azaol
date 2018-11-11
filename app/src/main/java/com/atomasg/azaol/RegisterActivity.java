@@ -1,21 +1,28 @@
 package com.atomasg.azaol;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.net.sip.SipSession;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atomasg.azaol.data.Register;
+import com.atomasg.azaol.ui.CustomDialog;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -59,6 +66,11 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.etObservations)
     EditText etObservations;
 
+    @BindView(R.id.registerForm)
+    View viewForm;
+
+    @BindView(R.id.upload_progress)
+    View progressView;
 
     private boolean isUploaded;
     private File file;
@@ -100,9 +112,10 @@ public class RegisterActivity extends AppCompatActivity {
     @OnClick(R.id.btnUpload)
     public void onUploadClick() {
         if (checkIsAllData()) {
+            showProgress(true);
             if (file != null) {
                 uploadImage();
-            }else{
+            } else {
                 uploadRegister(null);
             }
         } else {
@@ -176,6 +189,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Subida fallida", Toast.LENGTH_SHORT).show();
 
+                showProgress(false);
 
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -183,6 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                 Toast.makeText(getApplicationContext(), "Subida completada", Toast.LENGTH_SHORT).show();
+                showProgress(false);
 
             }
         }).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -200,13 +215,9 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
 
                 if (task.isSuccessful()) {
-
                     Uri downloadUri = task.getResult();
-                    Toast.makeText(getApplicationContext(), "get Uri Success", Toast.LENGTH_SHORT).show();
                     uploadRegister(downloadUri.toString());
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "get Uri Fail", Toast.LENGTH_SHORT).show();
+                    showProgress(false);
                 }
             }
         });
@@ -214,37 +225,24 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private void showCameraConfirmationDialog() {
-        AlertDialog dialog = AskOption();
+        final CustomDialog dialog = new CustomDialog(this,"¿Quieres realizar una nueva foto?");
+
+
+        dialog.setConfirmationListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startCamera();
+            }
+        });
+
+        dialog.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
         dialog.show();
-    }
-
-    private AlertDialog AskOption() {
-        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
-                //set message, title, and icon
-                .setTitle("Camara")
-                .setMessage("¿Quieres cambiar la imagen actual por una nueva?")
-                .setIcon(R.drawable.ic_camera)
-
-                .setPositiveButton("Nueva Foto", new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        startCamera();
-                        dialog.dismiss();
-                    }
-
-                })
-
-
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.dismiss();
-
-                    }
-                })
-                .create();
-        return myQuittingDialogBox;
-
     }
 
     @Override
@@ -283,34 +281,33 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
 
-    private AlertDialog createAdkDialog(String title, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener) {
-        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
-                //set message, title, and icon
-                .setTitle("Camara")
-                .setMessage("¿Quieres cambiar la imagen actual por una nueva?")
-                .setIcon(R.drawable.ic_camera)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-                .setPositiveButton("Nueva Foto", new DialogInterface.OnClickListener() {
+            viewForm.setVisibility(show ? View.GONE : View.VISIBLE);
+            viewForm.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    viewForm.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
 
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        startCamera();
-                        dialog.dismiss();
-                    }
-
-                })
-
-
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.dismiss();
-
-                    }
-                })
-                .create();
-        return myQuittingDialogBox;
-
+            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            progressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            viewForm.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 
 }

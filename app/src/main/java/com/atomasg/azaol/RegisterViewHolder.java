@@ -7,7 +7,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class RegisterViewHolder extends RecyclerView.ViewHolder {
+public class RegisterViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.tvStreet)
     TextView tvContador;

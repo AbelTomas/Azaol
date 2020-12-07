@@ -54,6 +54,14 @@
           }
         },
         {
+          "client_id": "876010939347-n0srh5rqldqis8eu1hsj0oupthup0fk0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.atomasg.azaol",
+            "certificate_hash": "d299bca3ad02b2a43376243ce20a33999c7f74ff"
+          }
+        },
+        {
           "client_id": "876010939347-s4gor334obueav3cq50sc5mlbn9id6lk.apps.googleusercontent.com",
           "client_type": 3
         }

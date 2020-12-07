@@ -27,17 +27,6 @@ public class Navigator {
         activity.startActivity(intert);
     }
 
-    protected void goToSettings() {
-        Log.d(TAG,"Going to register...");
-        Intent intert = new Intent(activity, SettingsActivity.class);
-        activity.startActivity(intert);
-
-    }
-
-//    protected void goToMap() {
-//
-//    }
-
     protected void goToList(){
        // Log.d(TAG,"Going to register list...");
         Intent intent = new Intent(activity, RegisterList.class);
@@ -56,6 +45,8 @@ public class Navigator {
     }
 
     public void goToMap() {
+        Intent intent = new Intent(activity, MapsActivity.class);
+        activity.startActivity(intent);
         Toast.makeText(activity,"Go to Map Intent",Toast.LENGTH_SHORT).show();
     }
 }

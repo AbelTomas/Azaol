@@ -1,43 +1,21 @@
 package com.atomasg.azaol;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.atomasg.azaol.data.Register;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.Query;
 
-import java.util.List;
-
-public class Adapter extends RecyclerView.Adapter<RegisterViewHolder> {
+public class Adapter extends FirebaseRecyclerAdapter<Register, RegisterViewHolder> {
 
 
-    List<Register> registerList;
-
-
-    public Adapter(List<Register> registerList) {
-        this.registerList = registerList;
-    }
-
-    @NonNull
-    @Override
-    public RegisterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.register_item, parent, false);
-        RegisterViewHolder holder = new RegisterViewHolder(v);
-        return holder;
+    public Adapter(Class<Register> modelClass, int modelLayout, Class<RegisterViewHolder> viewHolderClass, Query ref) {
+        super(modelClass, modelLayout, viewHolderClass, ref);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RegisterViewHolder holder, int position) {
-        Register reg = registerList.get(position);
-        holder.setContador(reg.getContador());
-        holder.setFecha(reg.getFecha());
-        holder.setLectura(reg.getLectura());
+    protected void populateViewHolder(RegisterViewHolder holder, Register model, int position) {
+        holder.setContador(model.getStreet() + ", "+ model.getNum());
+        holder.setFecha(model.getDate());
+        holder.setLectura(model.getValue());
     }
 
-
-
-    @Override
-    public int getItemCount() {
-        return registerList.size();
-    }
 }

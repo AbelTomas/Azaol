@@ -33,11 +33,6 @@ public class MenuActivity extends AppCompatActivity {
 
     @OnClick(R.id.cardView3)
     public void onCardView3ClickedAction(){
-        navigator.goToRegister();
-    }
-
-    @OnClick(R.id.cardView4)
-    public void onCardView4ClickedAction(){
-        navigator.goToRegister();
+        navigator.goToMap();
     }
 }
